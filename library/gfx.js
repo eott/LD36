@@ -1,49 +1,33 @@
-function gfxPreload() {
-    // game.load.spritesheet('explosion', 'assets/images/mobs/explosion_spritesheet.png', 64, 64);
-    // game.load.tilemap('level', 'assets/maps/' + levelName + '.json', null, Phaser.Tilemap.TILED_JSON);
-    // game.load.image('labyrinthSprites', 'assets/images/background/labyrinth_spritesheet.png');
+GFX = function(app) {
+    this.app = app
 }
 
-function gfxCreate() {
-    // map = game.add.tilemap('level');
-
-    // // Add the tileset images. The first parameter is the tileset name as
-    // // specified in Tiled, the second is the key to the asset.
-    // map.addTilesetImage('labyrinth_spritesheet', 'labyrinthSprites');
-
-    // // Create layers
-    // floorLayer = map.createLayer('Floor');
-    // wallsLayer = map.createLayer('Walls');
-    // decorationLayer = map.createLayer('Decoration');
-
-    // // Collision for walls and furniture
-    // // The second argument is the max amount of tiles that are used. You want
-    // // to keep it as close as possible to the actual amount due to performance
-    // // reasons
-    // map.setCollisionBetween(1, 500, true, 'Walls');
-    // map.setCollisionBetween(1, 10, true, 'Decoration');
-
-    // // Resize the game world to match the layer dimensions
-    // floorLayer.resizeWorld();
-
-    // // Prepare pathfinding plugin
-    // var grid = map.layers[0].data;
-    // walkables = [];
-
-    // for (var row in grid){
-    //     walkables[row] = [];
-    //     for (var col in grid[row]){
-    //         var tile = grid[row][col];
-
-    //         walkables[row][col] = tile.index > 0;
-    //     }
-    // }
-
-    // pathfinder = game.plugins.add(PathFinderPlugin);
-    // pathfinder.setGrid(grid, walkables);
+GFX.prototype.preload = function() {
 
 }
 
-function gfxUpdate() {
-    
+GFX.prototype.create = function() {
+    this.graphics = this.app.game.add.graphics(50, 50)
+}
+
+GFX.prototype.update = function() {
+    this.graphics.clear()
+    this.graphics.beginFill(0x6a6a6a)
+    this.graphics.lineStyle(10, 0x6a6a6a, 1)
+
+    this.graphics.drawRect(
+        this.app.game.camera.x - 3,
+        this.app.game.camera.y - 3,
+        166,
+        26
+    )
+
+    this.graphics.beginFill(0x0000ff)
+    this.graphics.lineStyle(10, 0x0000ff, 1)
+    this.graphics.drawRect(
+        this.app.game.camera.x,
+        this.app.game.camera.y,
+        Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0),
+        20
+    )
 }

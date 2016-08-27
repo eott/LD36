@@ -2,6 +2,7 @@ Player = function(app) {
     this.app = app
     this.currentSprite = 'player_idle'
     this.health = 100
+    this.maxHealth = 100
     this.nhd = {} // Next-hit-delay
 }
 
