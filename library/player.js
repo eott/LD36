@@ -3,19 +3,23 @@ Player = function(app) {
 }
 
 Player.prototype.preload = function() {
-    this.app.game.load.spritesheet('player', 'assets/images/player/idle_spritesheet.png', 55, 107)
+    this.app.game.load.spritesheet('player', 'assets/images/player/idle_spritesheet.png', 55, 114)
 }
 
 Player.prototype.create = function() {
-    this.sprite = this.app.game.add.sprite(32, this.app.game.world.height - 500, 'player')
+    this.sprite = this.app.game.add.sprite(0, 0, 'player')
 
     this.app.game.physics.arcade.enable(this.sprite)
 
     this.sprite.body.gravity.y = 600
     this.sprite.body.collideWorldBounds = true
 
-    this.sprite.animations.add('left', [0, 1, 2, 3], 60, true)
-    this.sprite.animations.add('right', [5, 6, 7, 8], 60, true)
+    var range = []
+    for (var i = 0; i < 30; i++) {
+        range.push(i)
+    }
+
+    this.sprite.animations.add('idle', range, 30, true)
 
     // Find start position by game object
     var start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects');
@@ -23,7 +27,9 @@ Player.prototype.create = function() {
     this.sprite.body.x = start.X
     this.sprite.body.y = start.Y
 
-    this.app.game.camera.follow(this.sprite)
+    this.sprite.anchor.setTo(0.5, 0.5);
+
+    this.app.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_PLATFORMER)
 }
 
 Player.prototype.update = function() {
@@ -36,16 +42,15 @@ Player.prototype.update = function() {
         || this.app.cursors.a.isDown
     ) {
         this.sprite.body.velocity.x = -150
-        this.sprite.animations.play('left')
+        this.sprite.scale.x = -1
     } else if (
         this.app.cursors.right.isDown
         || this.app.cursors.d.isDown
     ) {
         this.sprite.body.velocity.x = 150
-        this.sprite.animations.play('right')
+        this.sprite.scale.x = 1
     } else {
-        this.sprite.animations.stop()
-        this.sprite.frame = 4
+        this.sprite.animations.play('idle')
     }
 
     if (
