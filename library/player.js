@@ -14,7 +14,7 @@ Player.prototype.create = function() {
 
     this.app.game.physics.arcade.enable(this.sprite)
 
-    this.sprite.body.gravity.y = 600
+    this.sprite.body.gravity.y = 900
     this.sprite.body.collideWorldBounds = true
 
     var range = this.range(30)
@@ -62,7 +62,7 @@ Player.prototype.update = function() {
             && this.app.cursors.space.isDown
         ) {
             this.isFalling = true
-            this.sprite.body.velocity.y = -350
+            this.sprite.body.velocity.y = -500
         }
     }
 
