@@ -40,6 +40,11 @@ Player.prototype.create = function() {
 Player.prototype.update = function() {
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.wallsLayer)
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.trapsGroup, this.trapContact, null, this)
+    this.app.game.physics.arcade.collide(this.sprite, this.app.map.endMarker, this.winLevel, null, this)
+
+    if (this.app.isStopped) {
+        return;
+    }
 
     this.sprite.body.velocity.x = 0
 
@@ -101,6 +106,11 @@ Player.prototype.update = function() {
     for (idx in this.nhd) {
         this.nhd[idx] = Math.max(this.nhd[idx]-1, 0)
     }
+
+    // Check loss condition
+    if (this.health <= 0) {
+        this.loseLevel()
+    }
 }
 
 Player.prototype.range = function(nr) {
@@ -116,4 +126,16 @@ Player.prototype.trapContact = function(player, trap) {
         this.health -= trap.damage
         this.nhd[trap.name] = trap.nhd
     }
+}
+
+Player.prototype.winLevel = function(player, marker) {
+    this.sprite.animations.stop()
+    this.app.gfx.showWinScreen()
+    this.app.stop()
+}
+
+Player.prototype.loseLevel = function(player, marker) {
+    this.sprite.animations.stop()
+    this.app.gfx.showLossScreen()
+    this.app.stop()
 }

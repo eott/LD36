@@ -3,7 +3,10 @@ App = function (width, height, elementName) {
     this.player = new Player(this)
     this.map = new Map(this)
     this.gfx = new GFX(this)
+    this.isStopped = false
+    this.isTimeStopped = false
     this.fc = 0
+    this.timeStopFc = 0
 }
 
 App.prototype.preload = function() {
@@ -38,6 +41,17 @@ App.prototype.update = function() {
     this.gfx.update()
 
     this.fc++
+    this.timeStopFc = Math.max(this.timeStopFc - 1, 0)
+}
+
+App.prototype.timeStop = function() {
+    this.isTimeStopped = true;
+    this.timeStopFc = 45
+}
+
+App.prototype.stop = function() {
+    this.isStopped = true
+    this.isTimeStopped = true
 }
 
 var app = new App(800, 600, 'gameView')

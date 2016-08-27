@@ -3,7 +3,8 @@ GFX = function(app) {
 }
 
 GFX.prototype.preload = function() {
-
+    this.app.game.load.image('winScreen', 'assets/images/icons/win_screen.png')
+    this.app.game.load.image('lossScreen', 'assets/images/icons/loss_screen.png')
 }
 
 GFX.prototype.create = function() {
@@ -30,4 +31,12 @@ GFX.prototype.update = function() {
         Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0),
         20
     )
+}
+
+GFX.prototype.showWinScreen = function() {
+    this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'winScreen')
+}
+
+GFX.prototype.showLossScreen = function() {
+    this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'lossScreen')
 }

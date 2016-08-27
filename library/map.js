@@ -60,9 +60,23 @@ Map.prototype.create = function() {
 
     // Resize the game world to match the layer dimensions
     this.wallsLayer.resizeWorld()
+
+    // Create end level marker as sprite
+    // For dev we use the gameObjects sprite, for prod we use no image
+    var markerPos = this.findObjectsByType('level_end', this.tilemap, 'Objects')
+    for (var idx in markerPos) {
+        this.endMarker = this.app.game.add.sprite(markerPos[idx].x, markerPos[idx].y, 'gameObjects')
+        this.endMarker.frame = 2
+        this.app.game.physics.arcade.enable(this.endMarker)
+        this.endMarker.body.immovable = true
+    }
 }
 
 Map.prototype.update = function() {
+    if (this.app.isStopped) {
+        return;
+    }
+
     for (idx in this.trapsGroup.children) {
         var trap = this.trapsGroup.children[idx]
         if (trap.name == 'spears') {
