@@ -4,6 +4,7 @@ Map = function(app) {
 
 Map.prototype.preload = function() {
     this.app.game.load.image('labyrinthSprites', 'assets/images/background/labyrinth_spritesheet.png')
+    this.app.game.load.spritesheet('gameObjects', 'assets/images/objects/game_objects.png', 64, 64)
     this.app.game.load.tilemap('level', 'assets/maps/Dev.json', null, Phaser.Tilemap.TILED_JSON)
 }
 
@@ -27,6 +28,21 @@ Map.prototype.create = function() {
 
     // Resize the game world to match the layer dimensions
     this.wallsLayer.resizeWorld()
+
+    // Prepare traps group
+    this.trapsGroup = this.app.game.add.group()
+    this.trapsGroup.enableBody = true
+
+    // Add spikes
+    var spikesStart = this.findObjectsByType('spikes', this.tilemap, 'Objects');
+    for (var idx in spikesStart) {
+        var trap = this.trapsGroup.create(spikesStart[idx].x, spikesStart[idx].y, 'gameObjects')
+        trap.body.immovable = true
+        trap.frame = 10
+        trap.name = 'spikes'
+        trap.damage = 10
+        trap.nhd = 10
+    }
 }
 
 Map.prototype.update = function() {

@@ -1,6 +1,8 @@
 Player = function(app) {
     this.app = app
     this.currentSprite = 'player_idle'
+    this.health = 100
+    this.nhd = {} // Next-hit-delay
 }
 
 Player.prototype.preload = function() {
@@ -24,18 +26,19 @@ Player.prototype.create = function() {
     this.sprite.animations.play('player_idle')
 
     // Find start position by game object
-    var start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects');
-    start = start.pop();
+    var start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects')
+    start = start.pop()
     this.sprite.body.x = start.X
     this.sprite.body.y = start.Y
 
-    this.sprite.anchor.setTo(0.5, 0.5);
+    this.sprite.anchor.setTo(0.5, 0.5)
 
     this.app.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_PLATFORMER)
 }
 
 Player.prototype.update = function() {
-    this.app.game.physics.arcade.collide(this.sprite, this.app.map.wallsLayer);
+    this.app.game.physics.arcade.collide(this.sprite, this.app.map.wallsLayer)
+    this.app.game.physics.arcade.collide(this.sprite, this.app.map.trapsGroup, this.trapContact, null, this)
 
     this.sprite.body.velocity.x = 0
 
@@ -92,6 +95,11 @@ Player.prototype.update = function() {
         this.sprite.loadTexture(shouldBe, 0)
         this.sprite.animations.play(shouldBe)
     }
+
+    // Advance NHDs
+    for (idx in this.nhd) {
+        this.nhd[idx] = Math.max(this.nhd[idx]-1, 0)
+    }
 }
 
 Player.prototype.range = function(nr) {
@@ -100,4 +108,11 @@ Player.prototype.range = function(nr) {
         range.push(i)
     }
     return range
+}
+
+Player.prototype.trapContact = function(player, trap) {
+    if (this.nhd[trap.name] == undefined || this.nhd[trap.name] == 0) {
+        this.health -= trap.damage
+        this.nhd[trap.name] = trap.nhd
+    }
 }
