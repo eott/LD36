@@ -4,6 +4,7 @@ Map = function(app) {
 
 Map.prototype.preload = function() {
     this.app.game.load.image('labyrinthSprites', 'assets/images/background/labyrinth_spritesheet.png')
+    this.app.game.load.image('spears', 'assets/images/objects/spears.png')
     this.app.game.load.spritesheet('gameObjects', 'assets/images/objects/game_objects.png', 64, 64)
     this.app.game.load.tilemap('level', 'assets/maps/Dev.json', null, Phaser.Tilemap.TILED_JSON)
 }
@@ -15,19 +16,9 @@ Map.prototype.create = function() {
     // specified in Tiled, the second is the key to the asset.
     this.tilemap.addTilesetImage('labyrinth_spritesheet', 'labyrinthSprites')
 
-    // Create layers
+    // Create layers below traps
     this.backgroundLayer = this.tilemap.createLayer('Background')
     this.objectsLayer = this.tilemap.createLayer('Objects')
-    this.wallsLayer = this.tilemap.createLayer('Walls')
-
-    // Collision for walls and furniture
-    // The second argument is the max amount of tiles that are used. You want
-    // to keep it as close as possible to the actual amount due to performance
-    // reasons
-    this.tilemap.setCollisionBetween(1, 500, true, 'Walls')
-
-    // Resize the game world to match the layer dimensions
-    this.wallsLayer.resizeWorld()
 
     // Prepare traps group
     this.trapsGroup = this.app.game.add.group()
@@ -43,10 +34,41 @@ Map.prototype.create = function() {
         trap.damage = 10
         trap.nhd = 10
     }
+
+    // Add spears
+    // Note that Phaser "helpfully" removes the height attribute, so we have to manually
+    // adjust the height for non-square objects. Fuck you, Phaser.
+    var spearsStart = this.findObjectsByType('spears', this.tilemap, 'Objects');
+    for (var idx in spearsStart) {
+        var trap = this.trapsGroup.create(spearsStart[idx].x, spearsStart[idx].y - 128, 'spears')
+        trap.body.immovable = true
+        trap.body.oy = trap.body.y
+        trap.frame = 0
+        trap.name = 'spears'
+        trap.damage = 35
+        trap.nhd = 30
+    }
+
+    // Create layers above traps
+    this.wallsLayer = this.tilemap.createLayer('Walls')
+
+    // Collision for walls
+    // The second argument is the max amount of tiles that are used. You want
+    // to keep it as close as possible to the actual amount due to performance
+    // reasons
+    this.tilemap.setCollisionBetween(1, 500, true, 'Walls')
+
+    // Resize the game world to match the layer dimensions
+    this.wallsLayer.resizeWorld()
 }
 
 Map.prototype.update = function() {
-    
+    for (idx in this.trapsGroup.children) {
+        var trap = this.trapsGroup.children[idx]
+        if (trap.name == 'spears') {
+            trap.body.y = trap.body.oy - 3 * Math.abs(this.app.fc % 60 - 30)
+        }
+    }
 }
 
 Map.prototype.findObjectsByType = function(type, map, layer) {
@@ -54,7 +76,7 @@ Map.prototype.findObjectsByType = function(type, map, layer) {
     map.objects[layer].forEach(function (element) {
         if (element.type === type || element.properties.type === type) {
             // Phaser uses top left, Tiled bottom left so we have to adjust
-            // the y position
+            // the y position; this breaks with non-square objects
             element.y -= map.tileHeight
             result.push(element)
         }

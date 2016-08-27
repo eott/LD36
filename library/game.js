@@ -2,6 +2,7 @@ App = function (width, height, elementName) {
     this.game = new Phaser.Game(width, height, Phaser.AUTO, elementName, this)
     this.player = new Player(this)
     this.map = new Map(this)
+    this.fc = 0
 }
 
 App.prototype.preload = function() {
@@ -31,6 +32,8 @@ App.prototype.create = function() {
 App.prototype.update = function() {
     this.map.update()
     this.player.update()
+
+    this.fc++
 }
 
 var app = new App(800, 600, 'gameView')
