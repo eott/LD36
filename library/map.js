@@ -73,7 +73,7 @@ Map.prototype.create = function() {
 }
 
 Map.prototype.update = function() {
-    if (this.app.isStopped) {
+    if (this.app.isStopped || this.app.isTimeStopped) {
         return;
     }
 

@@ -111,6 +111,14 @@ Player.prototype.update = function() {
     if (this.health <= 0) {
         this.loseLevel()
     }
+
+    // Check timestop
+    if (
+        this.app.cursors.q.isDown
+        || this.app.cursors.v.isDown
+    ) {
+        this.app.timeStop()
+    }
 }
 
 Player.prototype.range = function(nr) {

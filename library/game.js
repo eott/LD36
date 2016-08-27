@@ -27,7 +27,11 @@ App.prototype.create = function() {
         'right': Phaser.Keyboard.RIGHT,
         'a': Phaser.Keyboard.A,
         'd': Phaser.Keyboard.D,
-        'space': Phaser.Keyboard.SPACEBAR
+        'space': Phaser.Keyboard.SPACEBAR,
+        'q': Phaser.Keyboard.Q,
+        'v': Phaser.Keyboard.V,
+        'y': Phaser.Keyboard.Y,
+        'n': Phaser.Keyboard.N
     })
 
     this.map.create()
@@ -40,13 +44,21 @@ App.prototype.update = function() {
     this.player.update()
     this.gfx.update()
 
-    this.fc++
     this.timeStopFc = Math.max(this.timeStopFc - 1, 0)
+    if (this.timeStopFc == 0) {
+        this.isTimeStopped = false;
+    }
+
+    if (!this.isTimeStopped) {
+        this.fc++
+    }
 }
 
 App.prototype.timeStop = function() {
-    this.isTimeStopped = true;
-    this.timeStopFc = 45
+    if (this.timeStopFc == 0) {
+        this.isTimeStopped = true;
+        this.timeStopFc = 90
+    }
 }
 
 App.prototype.stop = function() {
