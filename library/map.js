@@ -15,6 +15,7 @@ Map.prototype.create = function() {
     this.tilemap.addTilesetImage('labyrinth_spritesheet', 'labyrinthSprites')
 
     // Create layers
+    this.backgroundLayer = this.tilemap.createLayer('Background')
     this.objectsLayer = this.tilemap.createLayer('Objects')
     this.wallsLayer = this.tilemap.createLayer('Walls')
 
