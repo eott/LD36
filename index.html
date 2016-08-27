@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>LD36</title>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" type="text/css" href="default_style.css">
+    </head>
+
+    <body>
+        <div id="header">
+            <div id="credits">
+                <span id="title">LD36</span>
+                <span id="copyright">&copy; 2016 - Etienne Ott</span>
+            </div>
+
+            <div id="muteButtons">
+                <img id="mute" src="assets/images/icons/mute.png" width="64" height="64" alt="" onClick="muteSound()"/>
+                <img id="unmute" src="assets/images/icons/unmute.png" width="64" height="64" alt="" onClick="muteSound()"/>
+            </div>
+        </div>
+
+        <div id="gameView"></div>
+
+        <div id="footer">
+            <p><strong>Credits:</strong></p>
+        </div>
+
+        <script src="library/phaser/phaser.js" type="text/javascript"></script>
+        <script src="library/sfx.js" type="text/javascript"></script>
+        <script src="library/gfx.js" type="text/javascript"></script>
+        <script src="library/player.js" type="text/javascript"></script>
+        <script src="library/map.js" type="text/javascript"></script>
+        <script src="library/game.js" type="text/javascript"></script>
+    </body>
+</html>
