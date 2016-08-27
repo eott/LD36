@@ -16,10 +16,18 @@ Player.prototype.create = function() {
 
     this.sprite.animations.add('left', [0, 1, 2, 3], 60, true)
     this.sprite.animations.add('right', [5, 6, 7, 8], 60, true)
+
+    // Find start position by game object
+    var start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects');
+    start = start.pop();
+    this.sprite.body.x = start.X
+    this.sprite.body.y = start.Y
+
+    this.app.game.camera.follow(this.sprite)
 }
 
 Player.prototype.update = function() {
-    this.app.game.physics.arcade.collide(this.sprite, this.app.map.platforms)
+    this.app.game.physics.arcade.collide(this.sprite, this.app.map.wallsLayer);
 
     this.sprite.body.velocity.x = 0
 
@@ -40,7 +48,10 @@ Player.prototype.update = function() {
         this.sprite.frame = 4
     }
 
-    if (this.app.cursors.space.isDown && this.sprite.body.touching.down) {
+    if (
+        this.app.cursors.space.isDown
+        && this.sprite.body.onFloor()
+    ) {
         this.sprite.body.velocity.y = -350
     }
 }
