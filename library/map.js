@@ -33,6 +33,7 @@ Map.prototype.create = function() {
         trap.name = 'spikes'
         trap.damage = 10
         trap.nhd = 10
+        trap.body.setSize(50, 50, 7, 7) // Forgiving hitboxes
     }
 
     // Add spears
@@ -47,6 +48,7 @@ Map.prototype.create = function() {
         trap.name = 'spears'
         trap.damage = 35
         trap.nhd = 30
+        trap.body.setSize(50, 178, 7, 7) // Forgiving hitboxes
     }
 
     // Create layers above traps
@@ -56,7 +58,7 @@ Map.prototype.create = function() {
     // The second argument is the max amount of tiles that are used. You want
     // to keep it as close as possible to the actual amount due to performance
     // reasons
-    this.tilemap.setCollisionBetween(1, 500, true, 'Walls')
+    this.tilemap.setCollisionBetween(1, 1500, true, 'Walls')
 
     // Resize the game world to match the layer dimensions
     this.wallsLayer.resizeWorld()
