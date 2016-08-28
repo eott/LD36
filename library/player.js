@@ -50,6 +50,7 @@ Player.prototype.update = function() {
     // Check other collisions
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.trapsGroup, this.trapContact, null, this)
     this.app.game.physics.arcade.overlap(this.sprite, this.app.map.endMarker, this.winLevel, null, this)
+    this.app.game.physics.arcade.overlap(this.sprite, this.app.map.batteryGroup, this.battery, null, this)
 
     if (!this.hasArtifact) {
         this.app.game.physics.arcade.overlap(this.sprite, this.app.map.artifact, this.pickup, null, this)
@@ -171,6 +172,14 @@ Player.prototype.pickup = function(player, marker) {
     this.app.stop()
     this.freeze()
     this.app.gfx.showMenuSlide('pickup')
+}
+
+Player.prototype.battery = function(player, marker) {
+    if (!marker.hasBeenUsed) {
+        this.health = Math.min(this.health + 30, this.maxHealth)
+        marker.visible = false
+        marker.hasBeenUsed = true
+    }
 }
 
 Player.prototype.reset = function() {

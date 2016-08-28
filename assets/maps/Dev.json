@@ -271,6 +271,22 @@
                  "width":64,
                  "x":1476,
                  "y":603
+                }, 
+                {
+                 "gid":102,
+                 "height":64,
+                 "id":26,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"battery",
+                 "visible":true,
+                 "width":64,
+                 "x":766.666666666667,
+                 "y":448
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -290,7 +306,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":26,
+ "nextobjectid":27,
  "orientation":"orthogonal",
  "properties":
     {

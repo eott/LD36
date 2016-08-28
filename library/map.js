@@ -81,6 +81,20 @@ Map.prototype.create = function() {
         this.app.game.physics.arcade.enable(this.artifact)
         this.artifact.body.immovable = true
     }
+
+
+    // Prepare battery group
+    this.batteryGroup = this.app.game.add.group()
+    this.batteryGroup.enableBody = true
+
+    // Add batteries
+    var markerPos = this.findObjectsByType('battery', this.tilemap, 'Objects')
+    for (var idx in markerPos) {
+        var battery = this.batteryGroup.create(markerPos[idx].x, markerPos[idx].y, 'gameObjects')
+        battery.frame = 1
+        battery.hasBeenUsed = false
+        battery.body.immovable = true
+    }
 }
 
 Map.prototype.update = function() {
@@ -110,5 +124,8 @@ Map.prototype.findObjectsByType = function(type, map, layer) {
 }
 
 Map.prototype.reset = function() {
-    
+    for (idx in this.batteryGroup.children) {
+        this.batteryGroup.children[idx].hasBeenUsed = false
+        this.batteryGroup.children[idx].visible = true
+    }
 }
