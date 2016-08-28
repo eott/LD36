@@ -41,7 +41,10 @@ GFX.prototype.update = function() {
 
     if (
         this.inMenu
-        && this.menuSlide == 'start'
+        && (
+            this.menuSlide == 'start'
+            || this.menuSlide == 'pickup'
+        )
         && this.app.cursors.y.isDown
     ) {
         this.inMenu = false
@@ -105,15 +108,19 @@ GFX.prototype.showMenuSlide = function(slide) {
     switch (slide) {
         case 'start':
             this.menuContent = '> Mission: Locate alien artifact in ruins\nand bring it back.\n> \nLoad personal profile:[a/d/left/right]\nlateral movement\n> [space] vertical movement\n> [x] show menu\n> [q/v] activate artifact\n> Close help? [y/n]'
-            break;
+            break
 
         case 'win':
             this.menuContent = '> Mission complete!\n> You have successfully\nretrieved the alien artifact\n> This belongs in a museum, but maybe you can\nplay with it for a while\n> \n> Play again? [y/n]'
-            break;
+            break
 
         case 'loss':
             this.menuContent = '> Detecting life signature... failed\n> Resending query\n> Detecting life signature... failed\n> Initiate protocol Last Will\n> Logging user out\n> Goodbye Captain\n> \n> Retry? [y/n]'
-            break;
+            break
+
+        case 'pickup':
+            this.menuContent = '> Scanning artifact... Done!\n> Full capabilities elude scanners, but strong\n> hints of time manipulation powers.\n> \n> Please use artifact responsibly.\n> \n> New mission parameters: Get out'
+            break
     }
 
     this.menuScreen.visible = true

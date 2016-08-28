@@ -42,6 +42,7 @@ Player.prototype.update = function() {
     // Always check against walls so we don't fall through them when the game is stopped
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.wallsLayer)
 
+    // Check if the app is stopped before checking colliders and doing movement
     if (this.app.isStopped) {
         return;
     }
@@ -49,7 +50,15 @@ Player.prototype.update = function() {
     // Check other collisions
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.trapsGroup, this.trapContact, null, this)
     this.app.game.physics.arcade.overlap(this.sprite, this.app.map.endMarker, this.winLevel, null, this)
-    this.app.game.physics.arcade.overlap(this.sprite, this.app.map.artifact, this.pickup, null, this)
+
+    if (!this.hasArtifact) {
+        this.app.game.physics.arcade.overlap(this.sprite, this.app.map.artifact, this.pickup, null, this)
+    }
+
+    // We have to check again since one of the collide callbacks might have triggered an app-stop
+    if (this.app.isStopped) {
+        return;
+    }
 
     this.sprite.body.velocity.x = 0
 
@@ -159,6 +168,9 @@ Player.prototype.loseLevel = function(player, marker) {
 Player.prototype.pickup = function(player, marker) {
     this.hasArtifact = true
     marker.visible = false
+    this.app.stop()
+    this.freeze()
+    this.app.gfx.showMenuSlide('pickup')
 }
 
 Player.prototype.reset = function() {
