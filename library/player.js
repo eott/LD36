@@ -18,7 +18,7 @@ Player.prototype.create = function() {
 
     this.app.game.physics.arcade.enable(this.sprite)
 
-    this.sprite.body.gravity.y = 900
+    this.sprite.body.gravity.y = 1500
     this.sprite.body.collideWorldBounds = true
 
     var range = this.range(30)
@@ -66,13 +66,13 @@ Player.prototype.update = function() {
         this.app.cursors.left.isDown
         || this.app.cursors.a.isDown
     ) {
-        this.sprite.body.velocity.x = -250
+        this.sprite.body.velocity.x = -325
         this.sprite.scale.x = -1
     } else if (
         this.app.cursors.right.isDown
         || this.app.cursors.d.isDown
     ) {
-        this.sprite.body.velocity.x = 250
+        this.sprite.body.velocity.x = 325
         this.sprite.scale.x = 1
     }
 
@@ -85,7 +85,7 @@ Player.prototype.update = function() {
             && this.app.cursors.space.isDown
         ) {
             this.isFalling = true
-            this.sprite.body.velocity.y = -500
+            this.sprite.body.velocity.y = -800
         }
     }
 
