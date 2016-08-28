@@ -14,7 +14,7 @@ Player.prototype.preload = function() {
 }
 
 Player.prototype.create = function() {
-    this.sprite = this.app.game.add.sprite(0, 0, 'player_idle')
+    this.sprite = this.app.game.add.sprite(100, 100, 'player_idle')
 
     this.app.game.physics.arcade.enable(this.sprite)
 
