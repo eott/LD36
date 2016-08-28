@@ -182,6 +182,8 @@ Player.prototype.reset = function() {
 
     this.hasArtifact = false
     this.app.map.artifact.visible = true
+
+    this.freezeSafe = null
 }
 
 Player.prototype.freeze = function() {
