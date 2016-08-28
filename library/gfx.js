@@ -10,9 +10,7 @@ GFX.prototype.preload = function() {
 
 GFX.prototype.create = function() {
     this.graphics = this.app.game.add.graphics(50, 50)
-
     this.filter = this.app.game.add.filter('Desaturation', this.app.game.width, this.app.game.height)
-    this.app.game.stage.filters = [this.filter]
 }
 
 GFX.prototype.update = function() {
@@ -60,4 +58,12 @@ GFX.prototype.showLossScreen = function() {
 GFX.prototype.reset = function() {
     this.graphics.clear()
     this.endScreen.kill()
+}
+
+GFX.prototype.timeStopEffects = function(flag) {
+    if (flag) {
+        this.app.game.stage.filters = [this.filter]
+    } else {
+        this.app.game.stage.filters = null
+    }
 }

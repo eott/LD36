@@ -6,7 +6,7 @@ App = function (width, height, elementName) {
     this.isStopped = false
     this.isTimeStopped = false
     this.fc = 0
-    this.timeStopFc = 0
+    this.timeStopFc = -1
     this.gameStatus = 0 // 0 is normal, 1 is loss, 2 is win
 }
 
@@ -45,9 +45,12 @@ App.prototype.update = function() {
     this.player.update()
     this.gfx.update()
 
-    this.timeStopFc = Math.max(this.timeStopFc - 1, 0)
-    if (this.timeStopFc == 0) {
-        this.isTimeStopped = false;
+    if (this.timeStopFc > 0) {
+        this.timeStopFc--
+    } else if (this.timeStopFc == 0) {
+        this.isTimeStopped = false
+        this.gfx.timeStopEffects(false)
+        this.timeStopFc--
     }
 
     if (!this.isTimeStopped) {
@@ -56,9 +59,10 @@ App.prototype.update = function() {
 }
 
 App.prototype.timeStop = function() {
-    if (this.timeStopFc == 0) {
-        this.isTimeStopped = true;
+    if (this.timeStopFc == -1) {
+        this.isTimeStopped = true
         this.timeStopFc = 90
+        this.gfx.timeStopEffects(true)
     }
 }
 
