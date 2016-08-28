@@ -12,6 +12,8 @@ GFX.prototype.preload = function() {
 
 GFX.prototype.create = function() {
     this.graphics = this.app.game.add.graphics(50, 50)
+    this.graphics.fixedToCamera = true
+
     this.filter = this.app.game.add.filter('Desaturation', this.app.game.width, this.app.game.height)
 
     this.menuScreen = this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'menuScreen')
@@ -82,24 +84,16 @@ GFX.prototype.update = function() {
 
 GFX.prototype.drawGUI = function() {
     this.graphics.clear()
+
+    // Grey border
     this.graphics.beginFill(0x6a6a6a)
     this.graphics.lineStyle(10, 0x6a6a6a, 1)
+    this.graphics.drawRect(-3, -3, 166, 26)
 
-    this.graphics.drawRect(
-        this.app.game.camera.x - 3,
-        this.app.game.camera.y - 3,
-        166,
-        26
-    )
-
+    // Blue energy bar
     this.graphics.beginFill(0x0000ff)
     this.graphics.lineStyle(10, 0x0000ff, 1)
-    this.graphics.drawRect(
-        this.app.game.camera.x,
-        this.app.game.camera.y,
-        Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0),
-        20
-    )
+    this.graphics.drawRect(0, 0, Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0), 20)
 }
 
 GFX.prototype.showMenuSlide = function(slide) {
