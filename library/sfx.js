@@ -14,7 +14,7 @@ SFX.prototype.create = function() {
     this.audioClips = {
         'hit': this.app.game.add.audio('hit', 0.5),
         'timeResume': this.app.game.add.audio('timeResume', 0.5),
-        'timeResume': this.app.game.add.audio('timeStop', 0.5),
+        'timeStop': this.app.game.add.audio('timeStop', 0.5),
         'music': this.app.game.add.audio('music', 0.5, true),
     }
 

@@ -54,6 +54,7 @@ App.prototype.update = function() {
     } else if (this.timeStopFc == 0) {
         this.isTimeStopped = false
         this.gfx.timeStopEffects(false)
+        this.sfx.playAudio('timeResume')
         this.timeStopFc--
     }
 
@@ -67,6 +68,7 @@ App.prototype.timeStop = function() {
         this.isTimeStopped = true
         this.timeStopFc = 90
         this.gfx.timeStopEffects(true)
+        this.sfx.playAudio('timeStop')
     }
 }
 

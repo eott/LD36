@@ -134,6 +134,7 @@ Player.prototype.trapContact = function(player, trap) {
     if (this.nhd[trap.name] == undefined || this.nhd[trap.name] == 0) {
         this.health -= trap.damage
         this.nhd[trap.name] = trap.nhd
+        this.app.sfx.playAudio('hit')
     }
 }
 
