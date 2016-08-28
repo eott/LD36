@@ -37,7 +37,10 @@ SFX.prototype.muteSound = function() {
     } else {
         document.getElementById("mute").style.display = "none"
         document.getElementById("unmute").style.display = "inline-block"
-        this.pauseAudio('music')
+
+        for (idx in this.audioClips) {
+            this.pauseAudio(idx)
+        }
     }
 }
 
