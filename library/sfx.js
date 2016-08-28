@@ -1,62 +1,54 @@
-function sfxPreload() {
-    // game.load.audio('music', 'assets/audio/music/song.ogg');
-    // game.load.audio('steps', 'assets/audio/effects/footsteps.ogg');
-    // game.load.audio('pickup', 'assets/audio/effects/pickup.ogg');
+SFX = function(app) {
+    this.app = app
+    this.muted = false
 }
 
-function sfxCreate() {
-    // backgroundMusic = game.add.audio('music', 0.3, true);
-    // audioClips = {
-    //     'steps': game.add.audio('steps', 0.4),
-    //     'pickup': game.add.audio('pickup', 0.1)
-    // }
-
-    // audioClips['steps'].loop = true;
-
-    // playAudio('backgroundMusic');
+SFX.prototype.preload = function() {
+    this.app.game.load.audio('music', 'assets/audio/music/alien_ruins.ogg')
+    this.app.game.load.audio('hit', 'assets/audio/effects/hit.wav')
+    this.app.game.load.audio('timeResume', 'assets/audio/effects/time_resume.wav')
+    this.app.game.load.audio('timeStop', 'assets/audio/effects/time_stop.wav')
 }
 
-function sfxUpdate() {
-    // if (
-    //     player.body.velocity.y != 0
-    //     || player.body.velocity.x != 0
-    // ) {
-    //     playAudio('steps');
-    // } else {
-    //     pauseAudio('steps');
-    // }
+SFX.prototype.create = function() {
+    this.audioClips = {
+        'hit': this.app.game.add.audio('hit', 0.5),
+        'timeResume': this.app.game.add.audio('timeResume', 0.5),
+        'timeResume': this.app.game.add.audio('timeStop', 0.5),
+        'music': this.app.game.add.audio('music', 0.5, true),
+    }
+
+    this.playAudio('music')
 }
 
-// function muteSound() {
-//     muted = !muted;
+SFX.prototype.update = function() {
+
+}
+
+SFX.prototype.muteSound = function() {
+    this.muted = !this.muted
     
-//     if (!muted) {
-//         document.getElementById("mute").style.display = "inline-block";
-//         document.getElementById("unmute").style.display = "none";
-//         backgroundMusic.play();
-//     } else {
-//         document.getElementById("mute").style.display = "none";
-//         document.getElementById("unmute").style.display = "inline-block";
-//         backgroundMusic.pause();
-//     }
-// }
+    if (!this.muted) {
+        document.getElementById("mute").style.display = "inline-block"
+        document.getElementById("unmute").style.display = "none"
+        this.playAudio('music')
+    } else {
+        document.getElementById("mute").style.display = "none"
+        document.getElementById("unmute").style.display = "inline-block"
+        this.pauseAudio('music')
+    }
+}
 
-// function playAudio(name) {
-//     if (muted) {
-//         return;
-//     }
+SFX.prototype.playAudio = function(name) {
+    if (this.muted) {
+        return;
+    }
 
-//     if (name == 'backgroundMusic') {
-//         backgroundMusic.play();
-//     } else if (audioClips[name] && !audioClips[name].isPlaying) {
-//         audioClips[name].play();
-//     }
-// }
+    if (this.audioClips[name] && !this.audioClips[name].isPlaying) {
+        this.audioClips[name].play();
+    }
+}
 
-// function pauseAudio(name) {
-//     if (name == 'backgroundMusic') {
-//         backgroundMusic.pause();
-//     } else if (audioClips[name]) {
-//         audioClips[name].pause();
-//     }
-// }
+SFX.prototype.pauseAudio = function(name) {
+    this.audioClips[name].pause();
+}

@@ -3,6 +3,7 @@ App = function (width, height, elementName) {
     this.player = new Player(this)
     this.map = new Map(this)
     this.gfx = new GFX(this)
+    this.sfx = new SFX(this)
     this.isStopped = true
     this.isTimeStopped = false
     this.fc = 0
@@ -16,6 +17,7 @@ App.prototype.preload = function() {
     this.map.preload()
     this.player.preload()
     this.gfx.preload()
+    this.sfx.preload()
 }
 
 App.prototype.create = function() {
@@ -38,12 +40,14 @@ App.prototype.create = function() {
     this.map.create()
     this.player.create()
     this.gfx.create()
+    this.sfx.create()
 }
 
 App.prototype.update = function() {
     this.map.update()
     this.player.update()
     this.gfx.update()
+    this.sfx.update()
 
     if (this.timeStopFc > 0) {
         this.timeStopFc--
