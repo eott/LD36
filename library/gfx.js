@@ -27,6 +27,14 @@ GFX.prototype.create = function() {
     )
     this.menuText.fixedToCamera = true
     this.showMenuSlide(this.menuSlide)
+
+    this.healthText = this.app.game.add.text(
+        115,
+        45,
+        '100',
+        {font: "24px Consolas", fill: "#ffffff", stroke: "#ffffff", strokeThickness: 1, align: "left"}
+    )
+    this.healthText.fixedToCamera = true
 }
 
 GFX.prototype.update = function() {
@@ -78,6 +86,8 @@ GFX.prototype.update = function() {
         this.app.stop()
     }
 
+    this.healthText.text = Math.round(this.app.player.health, 0)
+
     this.drawGUI()
     this.filter.update()
 }
@@ -88,12 +98,12 @@ GFX.prototype.drawGUI = function() {
     // Grey border
     this.graphics.beginFill(0x6a6a6a)
     this.graphics.lineStyle(10, 0x6a6a6a, 1)
-    this.graphics.drawRect(-3, -3, 166, 26)
+    this.graphics.drawRoundedRect(-3, -3, 166, 26, 6)
 
     // Blue energy bar
     this.graphics.beginFill(0x0000ff)
     this.graphics.lineStyle(10, 0x0000ff, 1)
-    this.graphics.drawRect(0, 0, Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0), 20)
+    this.graphics.drawRoundedRect(0, 0, Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0), 20, 5)
 }
 
 GFX.prototype.showMenuSlide = function(slide) {
