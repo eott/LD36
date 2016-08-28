@@ -3,11 +3,11 @@ App = function (width, height, elementName) {
     this.player = new Player(this)
     this.map = new Map(this)
     this.gfx = new GFX(this)
-    this.isStopped = false
+    this.isStopped = true
     this.isTimeStopped = false
     this.fc = 0
     this.timeStopFc = -1
-    this.gameStatus = 0 // 0 is normal, 1 is loss, 2 is win
+    this.gameStatus = -1 // -1 is start, 0 is normal, 1 is loss, 2 is win
 }
 
 App.prototype.preload = function() {
@@ -64,6 +64,11 @@ App.prototype.timeStop = function() {
         this.timeStopFc = 90
         this.gfx.timeStopEffects(true)
     }
+}
+
+App.prototype.startLevel = function() {
+    this.gameStatus = 0
+    this.isStopped = false
 }
 
 App.prototype.stop = function() {
