@@ -39,14 +39,17 @@ Player.prototype.create = function() {
 }
 
 Player.prototype.update = function() {
+    // Always check against walls so we don't fall through them when the game is stopped
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.wallsLayer)
-    this.app.game.physics.arcade.collide(this.sprite, this.app.map.trapsGroup, this.trapContact, null, this)
-    this.app.game.physics.arcade.collide(this.sprite, this.app.map.endMarker, this.winLevel, null, this)
-    this.app.game.physics.arcade.overlap(this.sprite, this.app.map.artifact, this.pickup, null, this)
 
     if (this.app.isStopped) {
         return;
     }
+
+    // Check other collisions
+    this.app.game.physics.arcade.collide(this.sprite, this.app.map.trapsGroup, this.trapContact, null, this)
+    this.app.game.physics.arcade.overlap(this.sprite, this.app.map.endMarker, this.winLevel, null, this)
+    this.app.game.physics.arcade.overlap(this.sprite, this.app.map.artifact, this.pickup, null, this)
 
     this.sprite.body.velocity.x = 0
 
