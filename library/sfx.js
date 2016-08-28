@@ -4,7 +4,7 @@ SFX = function(app) {
 }
 
 SFX.prototype.preload = function() {
-    this.app.game.load.audio('music', 'assets/audio/music/alien_ruins.ogg')
+    this.app.game.load.audio('music', 'assets/audio/music/forgotten_tombs.ogg')
     this.app.game.load.audio('hit', 'assets/audio/effects/hit.wav')
     this.app.game.load.audio('beep', 'assets/audio/effects/beep.wav')
     this.app.game.load.audio('timeResume', 'assets/audio/effects/time_resume.wav')
