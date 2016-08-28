@@ -5,10 +5,14 @@ GFX = function(app) {
 GFX.prototype.preload = function() {
     this.app.game.load.image('winScreen', 'assets/images/icons/win_screen.png')
     this.app.game.load.image('lossScreen', 'assets/images/icons/loss_screen.png')
+    this.app.game.load.script('filter', 'library/desaturation_filter.js')
 }
 
 GFX.prototype.create = function() {
     this.graphics = this.app.game.add.graphics(50, 50)
+
+    this.filter = this.app.game.add.filter('Desaturation', this.app.game.width, this.app.game.height)
+    //this.app.game.stage.filters = [this.filter]
 }
 
 GFX.prototype.update = function() {
@@ -31,6 +35,8 @@ GFX.prototype.update = function() {
         Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0),
         20
     )
+
+    this.filter.update()
 }
 
 GFX.prototype.showWinScreen = function() {
