@@ -97,3 +97,7 @@ Map.prototype.findObjectsByType = function(type, map, layer) {
     })
     return result
 }
+
+Map.prototype.reset = function() {
+    
+}

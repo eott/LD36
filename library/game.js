@@ -7,6 +7,7 @@ App = function (width, height, elementName) {
     this.isTimeStopped = false
     this.fc = 0
     this.timeStopFc = 0
+    this.gameStatus = 0 // 0 is normal, 1 is loss, 2 is win
 }
 
 App.prototype.preload = function() {
@@ -64,6 +65,28 @@ App.prototype.timeStop = function() {
 App.prototype.stop = function() {
     this.isStopped = true
     this.isTimeStopped = true
+}
+
+App.prototype.win = function() {
+    this.stop()
+    this.gfx.showWinScreen()
+    this.gameStatus = 2
+}
+
+App.prototype.loss = function() {
+    this.stop()
+    this.gfx.showLossScreen()
+    this.gameStatus = 1
+}
+
+App.prototype.reset = function() {
+    this.player.reset()
+    this.map.reset()
+    this.gfx.reset()
+
+    this.isStopped = false
+    this.isTimeStopped = false
+    this.gameStatus = 0
 }
 
 var app = new App(800, 600, 'gameView')

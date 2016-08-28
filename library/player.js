@@ -27,10 +27,10 @@ Player.prototype.create = function() {
     this.sprite.animations.play('player_idle')
 
     // Find start position by game object
-    var start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects')
-    start = start.pop()
-    this.sprite.body.x = start.X
-    this.sprite.body.y = start.Y
+    this.start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects')
+    this.start = this.start.pop()
+    this.sprite.body.x = this.start.X
+    this.sprite.body.y = this.start.Y
 
     this.sprite.anchor.setTo(0.5, 0.5)
 
@@ -138,12 +138,18 @@ Player.prototype.trapContact = function(player, trap) {
 
 Player.prototype.winLevel = function(player, marker) {
     this.sprite.animations.stop()
-    this.app.gfx.showWinScreen()
-    this.app.stop()
+    this.app.win()
 }
 
 Player.prototype.loseLevel = function(player, marker) {
     this.sprite.animations.stop()
-    this.app.gfx.showLossScreen()
-    this.app.stop()
+    this.app.loss()
+}
+
+Player.prototype.reset = function() {
+    this.sprite.body.x = this.start.x
+    this.sprite.body.y = this.start.y
+    this.sprite.body.velocity.x = 0
+    this.sprite.body.velocity.y = 0
+    this.health = this.maxHealth
 }

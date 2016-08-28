@@ -37,12 +37,27 @@ GFX.prototype.update = function() {
     )
 
     this.filter.update()
+
+    if (
+        (
+            this.app.gameStatus == 2
+            || this.app.gameStatus == 1
+        )
+        && this.app.cursors.y.isDown
+    ) {
+        this.app.reset()
+    }
 }
 
 GFX.prototype.showWinScreen = function() {
-    this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'winScreen')
+    this.endScreen = this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'winScreen')
 }
 
 GFX.prototype.showLossScreen = function() {
-    this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'lossScreen')
+    this.endScreen = this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'lossScreen')
+}
+
+GFX.prototype.reset = function() {
+    this.graphics.clear()
+    this.endScreen.kill()
 }
