@@ -2,9 +2,13 @@ Phaser.Filter.Desaturation = function (game) {
     Phaser.Filter.call(this, game);
 
     this.fragmentSrc = [
-        "varying lowp vec4 vColor;",
+        "varying mediump vec2 vTextureCoord;",
+        "uniform sampler2D uSampler;",
+
         "void main() {",
-            "gl_FragColor = vec4(vColor.r, vColor.g, vColor.b, 1.0);",
+            "gl_FragColor = texture2D(uSampler, vTextureCoord);",
+            "mediump float f = 0.2126 * gl_FragColor.r + 0.7152 * gl_FragColor.g + 0.0722 * gl_FragColor.b;",
+            "gl_FragColor.rgb = vec3(f, f, f);",
         "}"
     ];
 

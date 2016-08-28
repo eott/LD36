@@ -12,7 +12,7 @@ GFX.prototype.create = function() {
     this.graphics = this.app.game.add.graphics(50, 50)
 
     this.filter = this.app.game.add.filter('Desaturation', this.app.game.width, this.app.game.height)
-    //this.app.game.stage.filters = [this.filter]
+    this.app.game.stage.filters = [this.filter]
 }
 
 GFX.prototype.update = function() {
