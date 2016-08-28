@@ -34,7 +34,8 @@ App.prototype.create = function() {
         'q': Phaser.Keyboard.Q,
         'v': Phaser.Keyboard.V,
         'y': Phaser.Keyboard.Y,
-        'n': Phaser.Keyboard.N
+        'n': Phaser.Keyboard.N,
+        'x': Phaser.Keyboard.X
     })
 
     this.map.create()
@@ -72,9 +73,10 @@ App.prototype.timeStop = function() {
     }
 }
 
-App.prototype.startLevel = function() {
+App.prototype.resume = function() {
     this.gameStatus = 0
     this.isStopped = false
+    this.isTimeStopped = false
 }
 
 App.prototype.stop = function() {
@@ -84,13 +86,13 @@ App.prototype.stop = function() {
 
 App.prototype.win = function() {
     this.stop()
-    this.gfx.showWinScreen()
+    this.gfx.showMenuSlide('win')
     this.gameStatus = 2
 }
 
 App.prototype.loss = function() {
     this.stop()
-    this.gfx.showLossScreen()
+    this.gfx.showMenuSlide('loss')
     this.gameStatus = 1
 }
 

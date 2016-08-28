@@ -1,30 +1,69 @@
 GFX = function(app) {
     this.app = app
+    this.menuSlide = 'start'
+    this.inMenu = true
 }
 
 GFX.prototype.preload = function() {
-    this.app.game.load.image('winScreen', 'assets/images/icons/win_screen.png')
-    this.app.game.load.image('lossScreen', 'assets/images/icons/loss_screen.png')
-    this.app.game.load.image('startScreen', 'assets/images/icons/start_screen.png')
+    this.app.game.load.image('menuScreen', 'assets/images/icons/menu_screen.png')
     this.app.game.load.script('filter', 'library/desaturation_filter.js')
 }
 
 GFX.prototype.create = function() {
     this.graphics = this.app.game.add.graphics(50, 50)
     this.filter = this.app.game.add.filter('Desaturation', this.app.game.width, this.app.game.height)
-    this.startScreen = this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'startScreen')
+
+    this.menuScreen = this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'menuScreen')
+    this.menuScreen.fixedToCamera = true
+
+    this.menuText = this.app.game.add.text(
+        150,
+        150,
+        '',
+        {font: "18px Consolas", fill: "#00ff00", stroke: "#00ff00", strokeThickness: 1, align: "left"}
+    )
+    this.menuText.fixedToCamera = true
+    this.showMenuSlide(this.menuSlide)
 }
 
 GFX.prototype.update = function() {
-    if (this.app.gameStatus == -1) {
-        if (this.app.cursors.y.isDown) {
-            this.startScreen.kill()
-            this.app.startLevel()
-        } else {
-            return;
-        }
+    if (
+        this.inMenu
+        && this.menuSlide == 'start'
+        && this.app.cursors.y.isDown
+    ) {
+        this.inMenu = false
+        this.menuScreen.visible = false
+        this.menuText.visible = false
+        this.app.resume()
+        this.app.player.unfreeze()
     }
 
+    if (
+        this.inMenu
+        && (
+            this.menuSlide == 'win'
+            || this.menuSlide == 'loss'
+        )
+        && this.app.cursors.y.isDown
+    ) {
+        this.app.reset()
+    }
+
+    if (
+        !this.inMenu
+        && this.app.cursors.x.isDown
+    ) {
+        this.showMenuSlide(this.menuSlide)
+        this.app.player.freeze()
+        this.app.stop()
+    }
+
+    this.drawGUI()
+    this.filter.update()
+}
+
+GFX.prototype.drawGUI = function() {
     this.graphics.clear()
     this.graphics.beginFill(0x6a6a6a)
     this.graphics.lineStyle(10, 0x6a6a6a, 1)
@@ -44,31 +83,35 @@ GFX.prototype.update = function() {
         Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0),
         20
     )
+}
 
-    this.filter.update()
+GFX.prototype.showMenuSlide = function(slide) {
+    this.menuSlide = slide
 
-    if (
-        (
-            this.app.gameStatus == 2
-            || this.app.gameStatus == 1
-        )
-        && this.app.cursors.y.isDown
-    ) {
-        this.app.reset()
+    switch (slide) {
+        case 'start':
+            this.menuText.text = '> Mission: Locate alien artifact in ruins\nand bring it back.\n> \nLoad personal profile:[a/d/left/right]\nlateral movement\n> [space] vertical movement\n> [x] show menu\n> [q/v] activate artifact\n> Close help? [y/n]'
+            break;
+
+        case 'win':
+            this.menuText.text = '> Mission complete!\n> You have successfully\nretrieved the alien artifact\n> This belongs in a museum, but maybe you can\nplay with it for a while\n> \n> Play again? [y/n]'
+            break;
+
+        case 'loss':
+            this.menuText.text = '> Detecting life signature... failed\n> Resending query\n> Detecting life signature... failed\n> Initiate protocol Last Will\n> Logging user out\n> Goodbye Captain\n> \n> Retry? [y/n]'
+            break;
     }
-}
 
-GFX.prototype.showWinScreen = function() {
-    this.endScreen = this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'winScreen')
-}
-
-GFX.prototype.showLossScreen = function() {
-    this.endScreen = this.app.game.add.image(this.app.game.camera.x + 100, this.app.game.camera.y + 100, 'lossScreen')
+    this.menuScreen.visible = true
+    this.menuText.visible = true
+    this.inMenu = true
 }
 
 GFX.prototype.reset = function() {
     this.graphics.clear()
-    this.endScreen.kill()
+    this.menuScreen.visible = false
+    this.menuText.visible = false
+    this.menuSlide = 'start'
 }
 
 GFX.prototype.timeStopEffects = function(flag) {

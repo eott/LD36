@@ -155,3 +155,26 @@ Player.prototype.reset = function() {
     this.sprite.body.velocity.y = 0
     this.health = this.maxHealth
 }
+
+Player.prototype.freeze = function() {
+    this.freezeSafe = [
+        this.sprite.body.velocity.x,
+        this.sprite.body.velocity.y,
+        this.sprite.body.gravity.y
+    ]
+
+    this.sprite.body.velocity.x = 0
+    this.sprite.body.velocity.y = 0
+    this.sprite.body.gravity.y = 0
+    this.sprite.animations.stop()
+}
+
+Player.prototype.unfreeze = function() {
+    if (this.freezeSafe) {
+        this.sprite.body.velocity.x = this.freezeSafe[0]
+        this.sprite.body.velocity.y = this.freezeSafe[1]
+        this.sprite.body.gravity.y = this.freezeSafe[2]
+    }
+
+    this.sprite.animations.play(this.currentSprite)
+}
