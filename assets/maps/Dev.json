@@ -13,7 +13,7 @@
         }, 
         {
          "draworder":"topdown",
-         "height":10,
+         "height":0,
          "name":"Objects",
          "objects":[
                 {
@@ -45,8 +45,8 @@
                  "type":"spikes",
                  "visible":true,
                  "width":64,
-                 "x":225,
-                 "y":448
+                 "x":12,
+                 "y":444
                 }, 
                 {
                  "gid":111,
@@ -95,11 +95,27 @@
                  "width":64,
                  "x":1209,
                  "y":311
+                }, 
+                {
+                 "gid":104,
+                 "height":64,
+                 "id":9,
+                 "name":"",
+                 "properties":
+                    {
+
+                    },
+                 "rotation":0,
+                 "type":"artifact",
+                 "visible":true,
+                 "width":64,
+                 "x":159,
+                 "y":465
                 }],
          "opacity":1,
          "type":"objectgroup",
          "visible":true,
-         "width":20,
+         "width":0,
          "x":0,
          "y":0
         }, 
@@ -114,7 +130,7 @@
          "x":0,
          "y":0
         }],
- "nextobjectid":9,
+ "nextobjectid":11,
  "orientation":"orthogonal",
  "properties":
     {

@@ -3,6 +3,7 @@ Player = function(app) {
     this.currentSprite = 'player_idle'
     this.health = 100
     this.maxHealth = 100
+    this.hasArtifact = false
     this.nhd = {} // Next-hit-delay
 }
 
@@ -41,6 +42,7 @@ Player.prototype.update = function() {
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.wallsLayer)
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.trapsGroup, this.trapContact, null, this)
     this.app.game.physics.arcade.collide(this.sprite, this.app.map.endMarker, this.winLevel, null, this)
+    this.app.game.physics.arcade.overlap(this.sprite, this.app.map.artifact, this.pickup, null, this)
 
     if (this.app.isStopped) {
         return;
@@ -115,8 +117,11 @@ Player.prototype.update = function() {
 
     // Check timestop
     if (
-        this.app.cursors.q.isDown
-        || this.app.cursors.v.isDown
+        this.hasArtifact
+        && (
+            this.app.cursors.q.isDown
+            || this.app.cursors.v.isDown
+        )
     ) {
         this.app.timeStop()
     }
@@ -148,12 +153,20 @@ Player.prototype.loseLevel = function(player, marker) {
     this.app.loss()
 }
 
+Player.prototype.pickup = function(player, marker) {
+    this.hasArtifact = true
+    marker.visible = false
+}
+
 Player.prototype.reset = function() {
     this.sprite.body.x = this.start.x
     this.sprite.body.y = this.start.y
     this.sprite.body.velocity.x = 0
     this.sprite.body.velocity.y = 0
     this.health = this.maxHealth
+
+    this.hasArtifact = false
+    this.app.map.artifact.visible = true
 }
 
 Player.prototype.freeze = function() {

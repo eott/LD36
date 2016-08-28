@@ -70,6 +70,15 @@ Map.prototype.create = function() {
         this.app.game.physics.arcade.enable(this.endMarker)
         this.endMarker.body.immovable = true
     }
+
+    // Add the artifact
+    var markerPos = this.findObjectsByType('artifact', this.tilemap, 'Objects')
+    for (var idx in markerPos) {
+        this.artifact = this.app.game.add.sprite(markerPos[idx].x, markerPos[idx].y, 'gameObjects')
+        this.artifact.frame = 3
+        this.app.game.physics.arcade.enable(this.artifact)
+        this.artifact.body.immovable = true
+    }
 }
 
 Map.prototype.update = function() {
