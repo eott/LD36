@@ -2,6 +2,7 @@ GFX = function(app) {
     this.app = app
     this.menuSlide = 'start'
     this.inMenu = true
+    this.menuFc = 0
 }
 
 GFX.prototype.preload = function() {
@@ -27,16 +28,29 @@ GFX.prototype.create = function() {
 }
 
 GFX.prototype.update = function() {
+    if (this.inMenu) {
+        this.menuFc++
+    }
+
+    if (this.inMenu && this.menuFc <= this.menuContent.length) {
+        this.menuText.text = this.menuContent.substr(0, this.menuFc)
+        this.app.sfx.playAudio('beep')
+    } else if (this.inMenu) {
+        this.app.sfx.pauseAudio('beep')
+    }
+
     if (
         this.inMenu
         && this.menuSlide == 'start'
         && this.app.cursors.y.isDown
     ) {
         this.inMenu = false
+        this.menuFc = 0
         this.menuScreen.visible = false
         this.menuText.visible = false
         this.app.resume()
         this.app.player.unfreeze()
+        this.app.sfx.pauseAudio('beep')
     }
 
     if (
@@ -90,21 +104,23 @@ GFX.prototype.showMenuSlide = function(slide) {
 
     switch (slide) {
         case 'start':
-            this.menuText.text = '> Mission: Locate alien artifact in ruins\nand bring it back.\n> \nLoad personal profile:[a/d/left/right]\nlateral movement\n> [space] vertical movement\n> [x] show menu\n> [q/v] activate artifact\n> Close help? [y/n]'
+            this.menuContent = '> Mission: Locate alien artifact in ruins\nand bring it back.\n> \nLoad personal profile:[a/d/left/right]\nlateral movement\n> [space] vertical movement\n> [x] show menu\n> [q/v] activate artifact\n> Close help? [y/n]'
             break;
 
         case 'win':
-            this.menuText.text = '> Mission complete!\n> You have successfully\nretrieved the alien artifact\n> This belongs in a museum, but maybe you can\nplay with it for a while\n> \n> Play again? [y/n]'
+            this.menuContent = '> Mission complete!\n> You have successfully\nretrieved the alien artifact\n> This belongs in a museum, but maybe you can\nplay with it for a while\n> \n> Play again? [y/n]'
             break;
 
         case 'loss':
-            this.menuText.text = '> Detecting life signature... failed\n> Resending query\n> Detecting life signature... failed\n> Initiate protocol Last Will\n> Logging user out\n> Goodbye Captain\n> \n> Retry? [y/n]'
+            this.menuContent = '> Detecting life signature... failed\n> Resending query\n> Detecting life signature... failed\n> Initiate protocol Last Will\n> Logging user out\n> Goodbye Captain\n> \n> Retry? [y/n]'
             break;
     }
 
     this.menuScreen.visible = true
     this.menuText.visible = true
+    this.menuText.text = ''
     this.inMenu = true
+    this.menuFc = 0
 }
 
 GFX.prototype.reset = function() {
