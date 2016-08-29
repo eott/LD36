@@ -49,7 +49,13 @@ Map.prototype.create = function() {
         trap.name = 'spears'
         trap.damage = 35
         trap.nhd = 30
+        trap.flip = spearsStart[idx].properties.flipped
+        trap.anchor.setTo(0, 0.5)
         trap.body.setSize(50, 178, 7, 7) // Forgiving hitboxes
+
+        if (trap.flip) {
+            trap.scale.y = -1
+        }
     }
 
     // Create layers above traps
@@ -107,7 +113,11 @@ Map.prototype.update = function() {
     for (idx in this.trapsGroup.children) {
         var trap = this.trapsGroup.children[idx]
         if (trap.name == 'spears') {
-            trap.body.y = trap.body.oy - 3 * Math.abs(this.app.fc % 60 - 30)
+            if (trap.flip) {
+                trap.body.y = trap.body.oy + 3 * Math.abs(this.app.fc % 60 - 30)
+            } else {
+                trap.body.y = trap.body.oy - 3 * Math.abs(this.app.fc % 60 - 30)
+            }
         }
     }
 }
