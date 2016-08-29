@@ -1,7 +1,16 @@
 body {
-    background-color: #E6EAC0;
-    font-family: 'Amatic SC', sanserif;
+    background-color: #000000;
+    font-family: 'Consolas', sanserif;
     font-size: 25px;
+    color: #00ff00;
+}
+
+a {
+    color: #00bb00;
+}
+
+a:visited {
+    color: #009900;
 }
 
 div[id=gameView] {
@@ -13,7 +22,7 @@ div[id=gameView] {
     left: 50%;
     margin-top: -300px;
     margin-left: -400px;
-    border: 1px solid #000000;
+    border: 1px solid #555555;
     z-index: 1;
 }
 
@@ -29,58 +38,12 @@ div[id="footer"] {
     bottom: 0;
     left: 0;
     width: 100%;
+    font-size: 18px;
 }
 
 span[id="title"] {
     font-size: 20px;
     font-weight: 700;
-}
-
-#menu {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background: url('assets/images/icons/menu_background.jpg');
-    color: #fff;
-    text-align: center;
-}
-
-#menu .title {
-    font-size: 80px;
-}
-
-#menu .menuItems {
-    margin-left: -35px;
-}
-
-#menu .menuItem {
-    font-size: 30px;
-    list-style: none;
-    cursor: pointer;
-}
-
-#tutorialMenu {
-    position: absolute;
-    right: 0;
-    min-width: 150px;
-    width: 10%;
-    height: 100%;
-    background-color: #ccc;
-    display: none;
-}
-
-#tutorialPrevious {
-    float: left;
-    cursor: pointer;
-}
-
-#tutorialNext {
-    float: right;
-    cursor: pointer;
-}
-
-#tutorialText {
-    padding: 5px;
 }
 
 div[id="credits"] {
