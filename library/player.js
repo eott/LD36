@@ -80,7 +80,6 @@ Player.prototype.update = function() {
         || this.sprite.body.touching.down
     ) {
         this.isFalling = false
-        this.sprite.body.velocity.y = 0
 
         if (
             !this.isFalling
