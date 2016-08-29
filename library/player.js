@@ -75,7 +75,10 @@ Player.prototype.update = function() {
         this.sprite.scale.x = 1
     }
 
-    if (this.sprite.body.onFloor()) {
+    if (
+        this.sprite.body.onFloor()
+        || this.sprite.body.touching.down
+    ) {
         this.isFalling = false
         this.sprite.body.velocity.y = 0
 
