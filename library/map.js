@@ -35,7 +35,7 @@ Map.prototype.create = function() {
         trap.name = 'spikes'
         trap.damage = 15
         trap.nhd = 25
-        trap.body.setSize(40, 40, 12, 12) // Forgiving hitboxes
+        trap.body.setSize(40, 30, 12, 34) // Forgiving hitboxes
     }
 
     // Add spears
