@@ -7,6 +7,7 @@ GFX = function(app) {
 
 GFX.prototype.preload = function() {
     this.app.game.load.image('menuScreen', 'assets/images/icons/menu_screen.png')
+    this.app.game.load.image('clock', 'assets/images/icons/clock.png')
     this.app.game.load.script('filter', 'library/desaturation_filter.js')
 }
 
@@ -35,6 +36,18 @@ GFX.prototype.create = function() {
         {font: "24px Consolas", fill: "#ffffff", stroke: "#ffffff", strokeThickness: 1, align: "left"}
     )
     this.healthText.fixedToCamera = true
+
+    this.timerText = this.app.game.add.text(
+        this.app.game.width - 145,
+        45,
+        '0',
+        {font: "24px Consolas", fill: "#ffffff", stroke: "#ffffff", strokeThickness: 1, align: "center"}
+    )
+    this.timerText.fixedToCamera = true
+    this.timerText.anchor.set(0.5, 0)
+
+    this.timerIcon = this.app.game.add.image(this.app.game.width - 220, 52, 'clock')
+    this.timerIcon.fixedToCamera = true
 }
 
 GFX.prototype.update = function() {
@@ -86,7 +99,8 @@ GFX.prototype.update = function() {
         this.app.stop()
     }
 
-    this.healthText.text = Math.round(this.app.player.health, 0)
+    this.healthText.text = Math.round(this.app.player.health)
+    this.timerText.text = Math.round(this.app.timeTotal / 1000.0) + '.' + Math.floor((this.app.timeTotal % 1000) / 100)
 
     this.drawGUI()
     this.filter.update()
@@ -95,7 +109,7 @@ GFX.prototype.update = function() {
 GFX.prototype.drawGUI = function() {
     this.graphics.clear()
 
-    // Grey border
+    // Grey border for energy bar
     this.graphics.beginFill(0x6a6a6a)
     this.graphics.lineStyle(10, 0x6a6a6a, 1)
     this.graphics.drawRoundedRect(-3, -3, 166, 26, 6)
@@ -104,6 +118,11 @@ GFX.prototype.drawGUI = function() {
     this.graphics.beginFill(0x0000ff)
     this.graphics.lineStyle(10, 0x0000ff, 1)
     this.graphics.drawRoundedRect(0, 0, Math.max(160 * this.app.player.health / this.app.player.maxHealth, 0), 20, 5)
+
+    // Grey background for timer
+    this.graphics.beginFill(0x6a6a6a)
+    this.graphics.lineStyle(10, 0x6a6a6a, 1)
+    this.graphics.drawRoundedRect(this.app.game.width - 275, -3, 166, 26, 6)
 }
 
 GFX.prototype.showMenuSlide = function(slide) {

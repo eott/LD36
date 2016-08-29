@@ -9,6 +9,8 @@ App = function (width, height, elementName) {
     this.fc = 0
     this.timeStopFc = -1
     this.gameStatus = -1 // -1 is start, 0 is normal, 1 is loss, 2 is win
+    this.timeTotal = 0
+    this.lastTime = false
 }
 
 App.prototype.preload = function() {
@@ -63,6 +65,15 @@ App.prototype.update = function() {
     if (!this.isTimeStopped) {
         this.fc++
     }
+
+    if (
+        !this.isStopped
+        && this.lastTime
+    ) {
+        var d = new Date()
+        this.timeTotal += d.getTime() - this.lastTime.getTime()
+        this.lastTime = d
+    }
 }
 
 App.prototype.timeStop = function() {
@@ -78,11 +89,18 @@ App.prototype.resume = function() {
     this.gameStatus = 0
     this.isStopped = false
     this.isTimeStopped = false
+    this.lastTime = new Date()
 }
 
 App.prototype.stop = function() {
     this.isStopped = true
     this.isTimeStopped = true
+
+    if (this.lastTime) {
+        var d = new Date()
+        this.timeTotal += d.getTime() - this.lastTime.getTime()
+    }
+    this.lastTime = false
 }
 
 App.prototype.win = function() {
@@ -105,6 +123,8 @@ App.prototype.reset = function() {
     this.isStopped = false
     this.isTimeStopped = false
     this.gameStatus = 0
+    this.timeTotal = 0
+    this.lastTime = false
 }
 
 var app = new App(800, 600, 'gameView')
