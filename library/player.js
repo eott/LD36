@@ -158,11 +158,13 @@ Player.prototype.trapContact = function(player, trap) {
 
 Player.prototype.winLevel = function(player, marker) {
     this.sprite.animations.stop()
+    this.freeze()
     this.app.win()
 }
 
 Player.prototype.loseLevel = function(player, marker) {
     this.sprite.animations.stop()
+    this.freeze()
     this.app.loss()
 }
 
@@ -194,6 +196,7 @@ Player.prototype.reset = function() {
     this.app.map.artifact.visible = true
 
     this.freezeSafe = null
+    this.sprite.body.gravity.y = 1500
 }
 
 Player.prototype.freeze = function() {
