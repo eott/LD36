@@ -24,6 +24,7 @@ App.prototype.create = function() {
     console.log('Create App')
 
     this.game.physics.startSystem(Phaser.Physics.ARCADE)
+    this.game.physics.arcade.TILE_BIAS = 32
 
     this.cursors = this.game.input.keyboard.addKeys({
         'left': Phaser.Keyboard.LEFT,
