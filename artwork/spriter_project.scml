@@ -13,6 +13,7 @@
     <folder id="1" name="icons">
         <file id="0" name="icons/pickup_star.png" width="64" height="64" pivot_x="0.5" pivot_y="0.5"/>
         <file id="1" name="icons/pickup_bottle.png" width="64" height="64" pivot_x="0.515625" pivot_y="0.515625"/>
+        <file id="2" name="icons/pickup_sand.png" width="64" height="64" pivot_x="0.5" pivot_y="0.5"/>
     </folder>
     <entity id="0" name="player">
         <obj_info name="bone_000" type="bone" w="111.112" h="10"/>
@@ -927,21 +928,58 @@
             </mainline>
             <timeline id="0" name="pickup_star">
                 <key id="0" spin="-1">
-                    <object folder="1" file="0"/>
+                    <object folder="1" file="0" angle="0"/>
                 </key>
                 <key id="1" time="500" spin="-1">
-                    <object folder="1" file="0" angle="270.34936" scale_x="1" scale_y="1"/>
+                    <object folder="1" file="0" angle="270.34936"/>
                 </key>
-                <key id="2" time="1000">
+                <key id="2" time="1000" spin="-1">
                     <object folder="1" file="0" angle="180"/>
                 </key>
             </timeline>
             <timeline id="1" name="pickup_bottle">
                 <key id="0" spin="0">
-                    <object folder="1" file="1" y="0.931677"/>
+                    <object folder="1" file="1" y="0.931677" angle="0"/>
                 </key>
                 <key id="1" time="500" spin="0">
-                    <object folder="1" file="1" y="0.931677" scale_x="1.219904" scale_y="1.247398"/>
+                    <object folder="1" file="1" y="0.931677" angle="0" scale_x="1.219904" scale_y="1.247398"/>
+                </key>
+            </timeline>
+        </animation>
+    </entity>
+    <entity id="2" name="pickup_time">
+        <animation id="0" name="spinning" length="1000" interval="100">
+            <mainline>
+                <key id="0">
+                    <object_ref id="0" timeline="0" key="0" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="0" z_index="1"/>
+                </key>
+                <key id="1" time="500">
+                    <object_ref id="0" timeline="0" key="1" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+                <key id="2" time="1000">
+                    <object_ref id="0" timeline="0" key="2" z_index="0"/>
+                    <object_ref id="1" timeline="1" key="1" z_index="1"/>
+                </key>
+            </mainline>
+            <timeline id="0" name="pickup_star">
+                <key id="0" spin="-1">
+                    <object folder="1" file="0" x="0.158379" y="-0.342541"/>
+                </key>
+                <key id="1" time="500" spin="-1">
+                    <object folder="1" file="0" x="0.158379" y="-0.342541" angle="269.799812"/>
+                </key>
+                <key id="2" time="1000" spin="-1">
+                    <object folder="1" file="0" x="0.158379" y="-0.342541" angle="179.757103"/>
+                </key>
+            </timeline>
+            <timeline id="1" name="pickup_sand">
+                <key id="0" spin="0">
+                    <object folder="1" file="2" x="0.736648" y="-0.736648"/>
+                </key>
+                <key id="1" time="500" spin="0">
+                    <object folder="1" file="2" x="0.736648" y="-0.736648" scale_x="1.18997" scale_y="1.195637"/>
                 </key>
             </timeline>
         </animation>
