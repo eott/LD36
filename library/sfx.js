@@ -7,16 +7,18 @@ SFX.prototype.preload = function() {
     this.app.game.load.audio('music', 'assets/audio/music/forgotten_tombs.ogg')
     this.app.game.load.audio('hit', 'assets/audio/effects/hit.wav')
     this.app.game.load.audio('beep', 'assets/audio/effects/beep.wav')
+    this.app.game.load.audio('battery', 'assets/audio/effects/battery.wav')
     this.app.game.load.audio('timeResume', 'assets/audio/effects/time_resume.wav')
     this.app.game.load.audio('timeStop', 'assets/audio/effects/time_stop.wav')
 }
 
 SFX.prototype.create = function() {
     this.audioClips = {
-        'hit': this.app.game.add.audio('hit', 0.5),
+        'hit': this.app.game.add.audio('hit', 0.4),
         'beep': this.app.game.add.audio('beep', 0.1, true),
-        'timeResume': this.app.game.add.audio('timeResume', 0.5),
-        'timeStop': this.app.game.add.audio('timeStop', 0.5),
+        'battery': this.app.game.add.audio('battery', 0.4),
+        'timeResume': this.app.game.add.audio('timeResume', 0.4),
+        'timeStop': this.app.game.add.audio('timeStop', 0.4),
         'music': this.app.game.add.audio('music', 0.5, true),
     }
 

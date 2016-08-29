@@ -175,6 +175,7 @@ Player.prototype.pickup = function(player, marker) {
 Player.prototype.battery = function(player, marker) {
     if (!marker.hasBeenUsed) {
         this.health = Math.min(this.health + 30, this.maxHealth)
+        this.app.sfx.playAudio('battery')
         marker.visible = false
         marker.hasBeenUsed = true
     }
