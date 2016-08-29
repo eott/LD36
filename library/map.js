@@ -33,8 +33,8 @@ Map.prototype.create = function() {
         var trap = this.trapsGroup.create(spikesStart[idx].x, spikesStart[idx].y, 'spikes')
         trap.body.immovable = true
         trap.name = 'spikes'
-        trap.damage = 10
-        trap.nhd = 10
+        trap.damage = 15
+        trap.nhd = 25
         trap.body.setSize(40, 40, 12, 12) // Forgiving hitboxes
     }
 
@@ -47,8 +47,8 @@ Map.prototype.create = function() {
         trap.body.immovable = true
         trap.body.oy = trap.body.y
         trap.name = 'spears'
-        trap.damage = 35
-        trap.nhd = 30
+        trap.damage = 25
+        trap.nhd = 45
         trap.flip = spearsStart[idx].properties.flipped
         trap.anchor.setTo(0, 0.5)
         trap.body.setSize(50, 178, 7, 7) // Forgiving hitboxes
