@@ -6,6 +6,7 @@ Map.prototype.preload = function() {
     this.app.game.load.image('labyrinthSprites', 'assets/images/background/labyrinth_spritesheet.png')
     this.app.game.load.image('spears', 'assets/images/objects/spears.png')
     this.app.game.load.spritesheet('gameObjects', 'assets/images/objects/game_objects.png', 64, 64)
+    this.app.game.load.spritesheet('pickupHealth', 'assets/images/objects/pickup_health.png', 64, 64)
     this.app.game.load.tilemap('level', 'assets/maps/Dev.json', null, Phaser.Tilemap.TILED_JSON)
 }
 
@@ -88,12 +89,14 @@ Map.prototype.create = function() {
     this.batteryGroup.enableBody = true
 
     // Add batteries
+    var range = this.app.player.range(20)
     var markerPos = this.findObjectsByType('battery', this.tilemap, 'Objects')
     for (var idx in markerPos) {
-        var battery = this.batteryGroup.create(markerPos[idx].x, markerPos[idx].y, 'gameObjects')
-        battery.frame = 1
+        var battery = this.batteryGroup.create(markerPos[idx].x, markerPos[idx].y, 'pickupHealth')
         battery.hasBeenUsed = false
         battery.body.immovable = true
+        battery.animations.add('spin', range, 20, true)
+        battery.animations.play('spin')
     }
 }
 
