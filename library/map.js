@@ -3,12 +3,13 @@ Map = function(app) {
 }
 
 Map.prototype.preload = function() {
-    this.app.game.load.image('labyrinthSprites', 'assets/images/background/labyrinth_spritesheet.png')
+    this.app.game.load.image('wallsAndBackground', 'assets/images/background/walls_and_background.png')
     this.app.game.load.image('spears', 'assets/images/objects/spears.png')
-    this.app.game.load.spritesheet('gameObjects', 'assets/images/objects/game_objects.png', 64, 64)
+    this.app.game.load.image('spikes', 'assets/images/objects/spikes.png')
+    this.app.game.load.image('door', 'assets/images/objects/door.png')
     this.app.game.load.spritesheet('pickupHealth', 'assets/images/objects/pickup_health.png', 64, 64)
     this.app.game.load.spritesheet('pickupArtifact', 'assets/images/objects/pickup_artifact.png', 64, 64)
-    this.app.game.load.tilemap('level', 'assets/maps/Dev.json', null, Phaser.Tilemap.TILED_JSON)
+    this.app.game.load.tilemap('level', 'assets/maps/Level1.json', null, Phaser.Tilemap.TILED_JSON)
 }
 
 Map.prototype.create = function() {
@@ -16,7 +17,7 @@ Map.prototype.create = function() {
 
     // Add the tileset images. The first parameter is the tileset name as
     // specified in Tiled, the second is the key to the asset.
-    this.tilemap.addTilesetImage('labyrinth_spritesheet', 'labyrinthSprites')
+    this.tilemap.addTilesetImage('walls_and_background', 'wallsAndBackground')
 
     // Create layers below traps
     this.backgroundLayer = this.tilemap.createLayer('Background')
@@ -29,9 +30,8 @@ Map.prototype.create = function() {
     // Add spikes
     var spikesStart = this.findObjectsByType('spikes', this.tilemap, 'Objects');
     for (var idx in spikesStart) {
-        var trap = this.trapsGroup.create(spikesStart[idx].x, spikesStart[idx].y, 'gameObjects')
+        var trap = this.trapsGroup.create(spikesStart[idx].x, spikesStart[idx].y, 'spikes')
         trap.body.immovable = true
-        trap.frame = 10
         trap.name = 'spikes'
         trap.damage = 10
         trap.nhd = 10
@@ -46,7 +46,6 @@ Map.prototype.create = function() {
         var trap = this.trapsGroup.create(spearsStart[idx].x, spearsStart[idx].y - 128, 'spears')
         trap.body.immovable = true
         trap.body.oy = trap.body.y
-        trap.frame = 0
         trap.name = 'spears'
         trap.damage = 35
         trap.nhd = 30
@@ -66,11 +65,9 @@ Map.prototype.create = function() {
     this.wallsLayer.resizeWorld()
 
     // Create end level marker as sprite
-    // For dev we use the gameObjects sprite, for prod we use no image
     var markerPos = this.findObjectsByType('level_end', this.tilemap, 'Objects')
     for (var idx in markerPos) {
-        this.endMarker = this.app.game.add.sprite(markerPos[idx].x, markerPos[idx].y, 'gameObjects')
-        this.endMarker.frame = 2
+        this.endMarker = this.app.game.add.sprite(markerPos[idx].x, markerPos[idx].y - 64, 'door')
         this.app.game.physics.arcade.enable(this.endMarker)
         this.endMarker.body.immovable = true
     }
