@@ -115,7 +115,7 @@ Player.prototype.update = function() {
         this.currentSprite = shouldBe
         this.sprite.loadTexture(shouldBe, 0)
         this.sprite.animations.play(shouldBe)
-        this.sprite.body.setSize(55, 113, 0, 0)
+        this.sprite.body.setSize(45, 113, 5, 0)
     }
 
     // Advance NHDs
