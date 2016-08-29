@@ -14,26 +14,24 @@ Player.prototype.preload = function() {
 }
 
 Player.prototype.create = function() {
-    this.sprite = this.app.game.add.sprite(100, 100, 'player_idle')
+    // Find start position by game object
+    this.start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects')
+    this.start = this.start.pop()
+
+    this.sprite = this.app.game.add.sprite(this.start.x, this.start.y, 'player_idle')
 
     this.app.game.physics.arcade.enable(this.sprite)
 
     this.sprite.body.gravity.y = 1500
     this.sprite.body.collideWorldBounds = true
 
+    this.sprite.anchor.setTo(0.5, 0.5)
+
     var range = this.range(30)
     this.sprite.animations.add('player_idle', range, 30, true)
     this.sprite.animations.add('player_running', range, 30, true)
     this.sprite.animations.add('player_falling', range, 30, true)
     this.sprite.animations.play('player_idle')
-
-    // Find start position by game object
-    this.start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects')
-    this.start = this.start.pop()
-    this.sprite.body.x = this.start.X
-    this.sprite.body.y = this.start.Y
-
-    this.sprite.anchor.setTo(0.5, 0.5)
 
     this.app.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_PLATFORMER)
 }
