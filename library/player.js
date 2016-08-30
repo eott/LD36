@@ -1,6 +1,6 @@
 Player = function(app) {
     this.app = app
-    this.currentSprite = 'player_idle'
+    this.currentSprite = 'player_running'
     this.health = 100
     this.maxHealth = 100
     this.hasArtifact = false
@@ -18,7 +18,7 @@ Player.prototype.create = function() {
     this.start = this.app.map.findObjectsByType('player_start', this.app.map.tilemap, 'Objects')
     this.start = this.start.pop()
 
-    this.sprite = this.app.game.add.sprite(this.start.x, this.start.y, 'player_idle')
+    this.sprite = this.app.game.add.sprite(this.start.x, this.start.y, 'player_running')
 
     this.app.game.physics.arcade.enable(this.sprite)
 
@@ -27,9 +27,13 @@ Player.prototype.create = function() {
 
     this.sprite.anchor.setTo(0.5, 0.5)
 
-    this.sprite.animations.add('player_idle', [0], 1, true)
-    this.sprite.animations.add('player_running', [0, 1, 2, 3], 12, true)
-    this.sprite.animations.add('player_falling', [0], 1, true)
+    // Be VERY careful here. If we add an animation while having a texture with N frame,
+    // only the first N frames will be used, regardless of how many frames a texture might
+    // have, that we load later on. Therefore we must load the sprite with the texture
+    // with the most frames. FUCK YOU PHASER
+    this.sprite.animations.add('player_idle', null, 1, true)
+    this.sprite.animations.add('player_running', null, 8, true)
+    this.sprite.animations.add('player_falling', null, 1, true)
     this.sprite.animations.play('player_idle')
 
     this.app.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_PLATFORMER)
