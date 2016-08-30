@@ -8,9 +8,9 @@ Player = function(app) {
 }
 
 Player.prototype.preload = function() {
-    this.app.game.load.spritesheet('player_idle', 'assets/images/player/idle_spritesheet.png', 55, 114)
-    this.app.game.load.spritesheet('player_running', 'assets/images/player/running_spritesheet.png', 86, 119)
-    this.app.game.load.spritesheet('player_falling', 'assets/images/player/falling_spritesheet.png', 69, 118)
+    this.app.game.load.spritesheet('player_idle', 'assets/images/player/idle_2_spritesheet.png', 150, 150)
+    this.app.game.load.spritesheet('player_running', 'assets/images/player/running_2_spritesheet.png', 150, 150)
+    this.app.game.load.spritesheet('player_falling', 'assets/images/player/falling_2_spritesheet.png', 150, 150)
 }
 
 Player.prototype.create = function() {
@@ -28,9 +28,9 @@ Player.prototype.create = function() {
     this.sprite.anchor.setTo(0.5, 0.5)
 
     var range = this.range(30)
-    this.sprite.animations.add('player_idle', range, 30, true)
-    this.sprite.animations.add('player_running', range, 30, true)
-    this.sprite.animations.add('player_falling', range, 30, true)
+    this.sprite.animations.add('player_idle', [0], 1, true)
+    this.sprite.animations.add('player_running', this.range(4), 15, true)
+    this.sprite.animations.add('player_falling', [0], 1, true)
     this.sprite.animations.play('player_idle')
 
     this.app.game.camera.follow(this.sprite, Phaser.Camera.FOLLOW_PLATFORMER)
@@ -112,10 +112,11 @@ Player.prototype.update = function() {
     }
 
     if (this.currentSprite != shouldBe) {
+        console.log(this.currentSprite, shouldBe)
         this.currentSprite = shouldBe
         this.sprite.loadTexture(shouldBe, 0)
         this.sprite.animations.play(shouldBe)
-        this.sprite.body.setSize(45, 113, 5, 0)
+        this.sprite.body.setSize(50, 120, 50, 15)
     }
 
     // Advance NHDs
