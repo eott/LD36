@@ -73,7 +73,7 @@ Map.prototype.create = function() {
     // Create end level marker as sprite
     var markerPos = this.findObjectsByType('level_end', this.tilemap, 'Objects')
     for (var idx in markerPos) {
-        this.endMarker = this.app.game.add.sprite(markerPos[idx].x, markerPos[idx].y - 64, 'door')
+        this.endMarker = this.app.game.add.sprite(markerPos[idx].x, markerPos[idx].y, 'door')
         this.app.game.physics.arcade.enable(this.endMarker)
         this.endMarker.body.immovable = true
     }
