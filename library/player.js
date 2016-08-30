@@ -27,9 +27,8 @@ Player.prototype.create = function() {
 
     this.sprite.anchor.setTo(0.5, 0.5)
 
-    var range = this.range(30)
     this.sprite.animations.add('player_idle', [0], 1, true)
-    this.sprite.animations.add('player_running', this.range(4), 15, true)
+    this.sprite.animations.add('player_running', [0, 1, 2, 3], 12, true)
     this.sprite.animations.add('player_falling', [0], 1, true)
     this.sprite.animations.play('player_idle')
 
@@ -112,7 +111,6 @@ Player.prototype.update = function() {
     }
 
     if (this.currentSprite != shouldBe) {
-        console.log(this.currentSprite, shouldBe)
         this.currentSprite = shouldBe
         this.sprite.loadTexture(shouldBe, 0)
         this.sprite.animations.play(shouldBe)
